@@ -5,6 +5,9 @@ import {XPHComboBox} from './controls/DropDowns/XPHComboBox'
 import {XPHDropDownList} from './controls/DropDowns/XPHDropDownList'
 import {XPHNumericTextBox} from './controls/Inputs/XPHNumericTextBox'
 import {XPHMaskedTextBox} from './controls/Inputs/XPHMaskedTextBox'
+import {XPHDatePicker} from './controls/Date/XPHDatePicker'
+import {XPHSwitch} from './controls/Switch/XPHSwitch'
+import {XPHTextBox} from './controls/Inputs/XPHTextBox'
 
 import '@progress/kendo-theme-default/dist/all.css'
 
@@ -20,11 +23,21 @@ class App extends Component {
       Mask:'(999) 000-0000',
       phoneValid:false,
       phoneRegex:/^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$/,
+      selectedDate:new Date('1/10/2018'),
+      dateFormat: 'MM/dd/yyyy',
+      IsSwitchChecked: true,
+      SwitchOnLabel:'In',
+      SwitchOffLabel:'Out',
+      InputValue:'',
+      InputLabel:'Address',
     };
     this.selectedItemChange = this.selectedItemChange.bind(this);
     this.onAmountChange = this.onAmountChange.bind(this);
     this.onPhoneChange = this.onPhoneChange.bind(this);
     this.onOpen = this.onOpen.bind(this);
+    this.onDateChange = this.onDateChange.bind(this);
+    this.onSwitchChange = this.onSwitchChange.bind(this);
+    this.onTextChange = this.onTextChange.bind(this);
   }
   
   selectedItemChange(value){
@@ -49,6 +62,24 @@ class App extends Component {
     }));
   }
 
+  onDateChange(value){
+    this.setState(prevState =>({
+      selectedDate:value
+    }));
+  }
+
+  onSwitchChange(value){
+    this.setState(prevState =>({
+      IsSwitchChecked:value
+    }));
+  }
+
+  onTextChange(value){
+    this.setState(prevState =>({
+      InputValue:value
+    }));
+  }
+
   render() {
     return (
       <div>
@@ -63,6 +94,16 @@ class App extends Component {
           <div style={{ margin: '10px' }}/>
           <label>Mask (Phone) </label>
           <XPHMaskedTextBox value={this.state.Phone} onChange={this.onPhoneChange} mask={this.state.Mask} regex={this.state.phoneRegex} />
+          <div style={{ margin: '10px' }}/>
+          <label>DatePicker </label>
+          <XPHDatePicker value={this.state.selectedDate} onChange={this.onDateChange} format={this.state.dateFormat} />
+          <div style={{ margin: '10px' }}/>
+          <label>Switch </label>
+          <XPHSwitch checked={this.state.IsSwitchChecked} onChange={this.onSwitchChange} onLabel={this.state.SwitchOnLabel} offLabel={this.state.SwitchOffLabel} />
+          <div style={{ margin: '10px' }}/>
+          <label>TextBox </label>
+          <XPHTextBox onChange={this.onTextChange} value={this.state.InputValue} label={this.state.InputLabel} />
+          <div style={{ margin: '10px' }}/>
       </div>
     );
   }
