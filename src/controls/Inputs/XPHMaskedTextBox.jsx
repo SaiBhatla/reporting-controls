@@ -4,24 +4,31 @@ import { MaskedTextBox} from '@progress/kendo-inputs-react-wrapper';
 
 export class XPHMaskedTextBox extends React.Component {
 
-    constructor(props) {
-        super(props);
+    constructor(props, context) {
+        super(props, context);
+        
+        this.state = {
+            isValid: true,
+          };
+
         this.onChange = this.onChange.bind(this);
     }
 
     onChange(event) {
         const updatedText = event.sender.raw();
-        let isValid = true;
         //const updatedText = event.sender.value();
+
         if(this.props.regex === undefined || 
             (this.props.regex !== undefined && this.validateRegex(updatedText, this.props.regex))){
-            isValid = true;
+                this.setState(prevState =>({
+                    isValid: true
+                  }));
         }
         else{
-            isValid = false;
+            this.setState(prevState =>({
+                isValid: false
+              }));
             }
-
-        this.SetStyle(isValid);
 
         if(this.props.onChange !== undefined){
             this.props.onChange(updatedText);
@@ -37,15 +44,25 @@ export class XPHMaskedTextBox extends React.Component {
         return false;
     }
 
-    SetStyle(isValid){
-        console.log(isValid);
+    getStyle() {
+        if(this.state.isValid){
+        return {
+            border: '5px solid green'
+        }
     }
+    else{
+        return {
+            border: '5px solid red'
+        }
+    }
+       }
 
 
     render() {
+        
         return (
-            <div style={{ display: 'inline-block' }}>
-                   <MaskedTextBox  
+            <div style={this.getStyle()}>
+                   <MaskedTextBox 
                         value={this.props.value}
                         mask={this.props.mask}
                         change={this.onChange} />

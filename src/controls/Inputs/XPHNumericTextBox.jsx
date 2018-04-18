@@ -20,7 +20,7 @@ export class XPHNumericTextBox extends React.Component {
 
     render() {
         return (
-            <div>
+            <div style={{ display: 'inline-block' }}>
                 <NumericTextBox
                         placeholder="please enter value"
                         value={this.props.value}
