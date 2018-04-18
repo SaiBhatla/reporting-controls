@@ -6,7 +6,7 @@ import {XPHDropDownList} from './controls/DropDowns/XPHDropDownList'
 import {XPHNumericTextBox} from './controls/Inputs/XPHNumericTextBox'
 import {XPHMaskedTextBox} from './controls/Inputs/XPHMaskedTextBox'
 
-import '@progress/kendo-theme-default/dist/all.css';
+import '@progress/kendo-theme-default/dist/all.css'
 
 class App extends Component {
 
@@ -18,6 +18,8 @@ class App extends Component {
       Amount:5,
       Phone:1234567890,
       Mask:'(999) 000-0000',
+      phoneValid:false,
+      phoneRegex:/^\(?([0-9]{3})\)?[-.●]?([0-9]{3})[-.●]?([0-9]{4})$/,
     };
     this.selectedItemChange = this.selectedItemChange.bind(this);
     this.onAmountChange = this.onAmountChange.bind(this);
@@ -45,17 +47,22 @@ class App extends Component {
     this.setState(prevState =>({
       Phone:value
     }));
-    console.log(this.state.Phone);
   }
-  
 
   render() {
     return (
       <div>
+          <label>Combo </label>
           <XPHComboBox data={this.state.Categories} selectedItem={this.state.selectedItem} onOpen={this.onOpen} selectedItemChange={this.selectedItemChange}/>
+          <div style={{ margin: '10px' }}/>
+          <label>Dropdown </label>
           <XPHDropDownList data={this.state.Categories} selectedItem={this.state.selectedItem} selectedItemChange={this.selectedItemChange}/>
+          <div style={{ margin: '10px' }}/>
+          <label>Numeric </label>
           <XPHNumericTextBox value={this.state.Amount} onChange={this.onAmountChange}/>
-          <XPHMaskedTextBox value={this.state.Phone} onChange={this.onPhoneChange} mask={this.state.Mask}/>
+          <div style={{ margin: '10px' }}/>
+          <label>Mask (Phone) </label>
+          <XPHMaskedTextBox value={this.state.Phone} onChange={this.onPhoneChange} mask={this.state.Mask} regex={this.state.phoneRegex} />
       </div>
     );
   }
