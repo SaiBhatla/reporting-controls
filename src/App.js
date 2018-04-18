@@ -6,7 +6,7 @@ import {XPHDropDownList} from './controls/DropDowns/XPHDropDownList'
 import {XPHNumericTextBox} from './controls/Inputs/XPHNumericTextBox'
 import {XPHMaskedTextBox} from './controls/Inputs/XPHMaskedTextBox'
 
-import '@progress/kendo-theme-default/dist/all.css'
+import '@progress/kendo-theme-default/dist/all.css';
 
 class App extends Component {
 
