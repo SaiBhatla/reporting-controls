@@ -8,6 +8,8 @@ import {XPHMaskedTextBox} from './controls/Inputs/XPHMaskedTextBox'
 import {XPHDatePicker} from './controls/Date/XPHDatePicker'
 import {XPHSwitch} from './controls/Switch/XPHSwitch'
 import {XPHTextBox} from './controls/Inputs/XPHTextBox'
+import {XPHCheckbox} from './controls/Inputs/XPHCheckbox'
+import {XPHLabel} from './controls/Label/XPHLabel'
 
 import '@progress/kendo-theme-default/dist/all.css'
 
@@ -30,6 +32,8 @@ class App extends Component {
       SwitchOffLabel:'Out',
       InputValue:'',
       InputLabel:'Address',
+      isChecked: true,
+      labelText: 'abc'
     };
     this.selectedItemChange = this.selectedItemChange.bind(this);
     this.onAmountChange = this.onAmountChange.bind(this);
@@ -38,6 +42,7 @@ class App extends Component {
     this.onDateChange = this.onDateChange.bind(this);
     this.onSwitchChange = this.onSwitchChange.bind(this);
     this.onTextChange = this.onTextChange.bind(this);
+    this.onCheckedChange = this.onCheckedChange.bind(this);
   }
   
   selectedItemChange(value){
@@ -80,6 +85,13 @@ class App extends Component {
     }));
   }
 
+  onCheckedChange(value){
+    this.setState(prevState =>({
+      isChecked:value
+    }));
+    console.log(value);
+  }
+
   render() {
     return (
       <div>
@@ -103,6 +115,12 @@ class App extends Component {
           <div style={{ margin: '10px' }}/>
           <label>TextBox </label>
           <XPHTextBox onChange={this.onTextChange} value={this.state.InputValue} label={this.state.InputLabel} />
+          <div style={{ margin: '10px' }}/>
+          <label>Checkbox </label>
+          <XPHCheckbox checked = {this.state.isChecked} onChange={this.onCheckedChange} />
+          <div style={{ margin: '10px' }}/>
+          <label>Label </label>
+          <XPHLabel labelText = {this.state.labelText} />
           <div style={{ margin: '10px' }}/>
       </div>
     );
