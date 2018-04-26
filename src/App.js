@@ -11,7 +11,9 @@ import {XPHTextBox} from './controls/Inputs/XPHTextBox'
 import {XPHCheckbox} from './controls/Inputs/XPHCheckbox'
 import {XPHLabel} from './controls/Label/XPHLabel'
 import {getData} from './data/XPHGridData'
+import {getBarChartSeries, getBarChartCategories} from './data/GetBarChartData'
 import {XPHGrid} from './controls/Grid/XPHGrid'
+import {XPHBarChart} from './controls/Charts/XPHBarChart'
 import '@progress/kendo-theme-default/dist/all.css'
 
 class App extends Component {
@@ -19,6 +21,8 @@ class App extends Component {
   constructor(props){
     super(props);
     let gridData = getData();
+    let barChartSeriesData = getBarChartSeries();
+    let barChartCategoriesData = getBarChartCategories();
     this.state = {
       Categories:["yellow","green"],
       selectedItem:null,
@@ -37,7 +41,9 @@ class App extends Component {
       isChecked: true,
       labelText: 'abc',
       rows: gridData.rows,
-      columns: gridData.columns
+      columns: gridData.columns,
+      barChartSeries: barChartSeriesData,
+      barChartCategories: barChartCategoriesData
     };
     this.selectedItemChange = this.selectedItemChange.bind(this);
     this.onAmountChange = this.onAmountChange.bind(this);
@@ -93,12 +99,13 @@ class App extends Component {
     this.setState(prevState =>({
       isChecked:value
     }));
-    console.log(value);
   }
 
   render() {
     const rows = this.state.rows;
     const columns = this.state.columns;
+    const series = this.state.barChartSeries;
+    const categories = this.state.barChartCategories;
     return (
       <div>
           <label>Combo </label>
@@ -128,9 +135,13 @@ class App extends Component {
           <label>Label </label>
           <XPHLabel labelText = {this.state.labelText} />
           <div style={{ margin: '10px' }}/>
+          <label>Grid </label>
           <div>
             <XPHGrid Rows={rows} ColumnDefs={columns}/>
           </div>
+          <div style={{ margin: '10px' }}/>
+          <label>Bar Chart </label>
+          <XPHBarChart series={series} categories={categories} />
       </div>
     );
   }
