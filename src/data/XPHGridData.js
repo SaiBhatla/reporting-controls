@@ -2,33 +2,41 @@ export function getColumnDefs(){
     var cols = [];
     
     cols.push({
-        field: "Security",
+        field: "Security.Value",
         title: "Security",
-        hidden: false
+        hidden: false,
+        format:""
     });
     cols.push({
-        field: "PnL",
+        field: "PnL.Value",
         title: "PnL",
-        hidden: false
+        hidden: false,
+        format:"{0:c}"
     });
     return cols;
 }
+
+export function getPnlStyle(pnl) {
+    if (pnl > 0) {
+      return "color: green";
+    } else if (pnl < 0) {
+      return "color: red";
+    } else {
+      return "color: black";
+    }
+  }
 
 export function getData(){
     let cols = getColumnDefs();
     let rows = [
         {
-            Security:"GOOG",
-            PnL:20
+            Security:{Value:"GOOG", StyleCode:""},
+            PnL:{Value:20, StyleCode:getPnlStyle(20)},
         },
         {
-            Security:"FB",
-            PnL:-40
+            Security:{Value:"FB", StyleCode:""},
+            PnL:{Value:-40000, StyleCode:getPnlStyle(-40000)},
         },
-        {
-            Security:"AAPL",
-            PnL:0
-        }
     ];
     return {
         rows:rows,

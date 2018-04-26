@@ -10,13 +10,15 @@ import {XPHSwitch} from './controls/Switch/XPHSwitch'
 import {XPHTextBox} from './controls/Inputs/XPHTextBox'
 import {XPHCheckbox} from './controls/Inputs/XPHCheckbox'
 import {XPHLabel} from './controls/Label/XPHLabel'
-
+import {getData} from './data/XPHGridData'
+import {XPHGrid} from './controls/Grid/XPHGrid'
 import '@progress/kendo-theme-default/dist/all.css'
 
 class App extends Component {
 
   constructor(props){
     super(props);
+    let gridData = getData();
     this.state = {
       Categories:["yellow","green"],
       selectedItem:null,
@@ -33,7 +35,9 @@ class App extends Component {
       InputValue:'',
       InputLabel:'Address',
       isChecked: true,
-      labelText: 'abc'
+      labelText: 'abc',
+      rows: gridData.rows,
+      columns: gridData.columns
     };
     this.selectedItemChange = this.selectedItemChange.bind(this);
     this.onAmountChange = this.onAmountChange.bind(this);
@@ -93,6 +97,8 @@ class App extends Component {
   }
 
   render() {
+    const rows = this.state.rows;
+    const columns = this.state.columns;
     return (
       <div>
           <label>Combo </label>
@@ -122,6 +128,9 @@ class App extends Component {
           <label>Label </label>
           <XPHLabel labelText = {this.state.labelText} />
           <div style={{ margin: '10px' }}/>
+          <div>
+            <XPHGrid Rows={rows} ColumnDefs={columns}/>
+          </div>
       </div>
     );
   }
