@@ -12,8 +12,10 @@ import {XPHCheckbox} from './controls/Inputs/XPHCheckbox'
 import {XPHLabel} from './controls/Label/XPHLabel'
 import {getData} from './data/XPHGridData'
 import {getBarChartSeries, getBarChartCategories} from './data/GetBarChartData'
+import {getPieChartSeries, getPieChartSeriesDefaults} from './data/GetPieChartData'
 import {XPHGrid} from './controls/Grid/XPHGrid'
 import {XPHBarChart} from './controls/Charts/XPHBarChart'
+import {XPHPieChart} from './controls/Charts/XPHPieChart'
 import '@progress/kendo-theme-default/dist/all.css'
 
 class App extends Component {
@@ -23,6 +25,8 @@ class App extends Component {
     let gridData = getData();
     let barChartSeriesData = getBarChartSeries();
     let barChartCategoriesData = getBarChartCategories();
+    let pieChartSeriesData = getPieChartSeries();
+    let pieChartSeriesDefaultsData = getPieChartSeriesDefaults();
     this.state = {
       Categories:["yellow","green"],
       selectedItem:null,
@@ -43,7 +47,9 @@ class App extends Component {
       rows: gridData.rows,
       columns: gridData.columns,
       barChartSeries: barChartSeriesData,
-      barChartCategories: barChartCategoriesData
+      barChartCategories: barChartCategoriesData,
+      pieChartSeries: pieChartSeriesData,
+      pieChartSeriesDefaults: pieChartSeriesDefaultsData
     };
     this.selectedItemChange = this.selectedItemChange.bind(this);
     this.onAmountChange = this.onAmountChange.bind(this);
@@ -106,6 +112,8 @@ class App extends Component {
     const columns = this.state.columns;
     const series = this.state.barChartSeries;
     const categories = this.state.barChartCategories;
+    const pieSeries = this.state.pieChartSeries;
+    const pieSeriesDefaults = this.state.pieChartSeriesDefaults;
     return (
       <div>
           <label>Combo </label>
@@ -142,6 +150,9 @@ class App extends Component {
           <div style={{ margin: '10px' }}/>
           <label>Bar Chart </label>
           <XPHBarChart series={series} categories={categories} />
+          <div style={{ margin: '10px' }}/>
+          <label>Pie Chart </label>
+          <XPHPieChart series={pieSeries} seriesDefaults={pieSeriesDefaults} />
       </div>
     );
   }
