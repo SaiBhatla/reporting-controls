@@ -27,7 +27,7 @@ export class XPHGrid extends React.Component {
         for (let i = 0; i < columnDefs.length; i++) {
             let column = columnDefs[i];
             if(column.hidden === true) continue;
-            columns.push(<Column key={column.field} field={column.field} title={column.title} />);
+            columns.push(<Column key={column.field} field={column.field} title={column.title} format={column.format} />);
         }
         return columns;
     }
@@ -36,7 +36,7 @@ export class XPHGrid extends React.Component {
         const {columns,rows} = this.state;
         return (
             <div>
-                <Grid data={rows}>
+                <Grid data={rows} >
                     {columns}
                 </Grid>
             </div>
