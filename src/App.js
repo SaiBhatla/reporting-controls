@@ -11,6 +11,8 @@ import {XPHTextBox} from './controls/Inputs/XPHTextBox'
 import {XPHCheckbox} from './controls/Inputs/XPHCheckbox'
 import {XPHLabel} from './controls/Label/XPHLabel'
 import {getData} from './data/XPHGridData'
+import {getEntityTypes,getFormSettings,saveFormSettings} from './data/FormData'
+import { Button } from '@progress/kendo-buttons-react-wrapper';
 import {XPHGrid} from './controls/Grid/XPHGrid'
 import '@progress/kendo-theme-default/dist/all.css'
 
@@ -37,16 +39,46 @@ class App extends Component {
       isChecked: true,
       labelText: 'abc',
       rows: gridData.rows,
-      columns: gridData.columns
+      columns: gridData.columns,
+      EntityTypes:[],
+      selectedEntityType:null,
+      WorkflowDescription:'',
+      WorkflowStartDate:null,
+      WorkflowId:0
     };
     this.selectedItemChange = this.selectedItemChange.bind(this);
     this.onAmountChange = this.onAmountChange.bind(this);
     this.onPhoneChange = this.onPhoneChange.bind(this);
     this.onOpen = this.onOpen.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
+    this.onWorkflowDateChange = this.onWorkflowDateChange.bind(this);
     this.onSwitchChange = this.onSwitchChange.bind(this);
     this.onTextChange = this.onTextChange.bind(this);
+    this.onWorkflowDescriptionChange = this.onWorkflowDescriptionChange.bind(this);
     this.onCheckedChange = this.onCheckedChange.bind(this);
+    this.selectedEntityTypeChange = this.selectedEntityTypeChange.bind(this);
+    this.saveFormData = this.saveFormData.bind(this);
+  }
+
+  async componentDidMount(){
+    const data = await this.getEntityTypes();
+    this.setState({
+      EntityTypes: data
+    },()=>{
+      this.getFormData();
+    });
+
+  }
+
+  async getEntityTypes() {
+    let data = await getEntityTypes();
+    return data;
+  }
+
+  selectedEntityTypeChange(value){
+      this.setState({
+        selectedEntityType:value
+    });
   }
   
   selectedItemChange(value){
@@ -77,6 +109,12 @@ class App extends Component {
     }));
   }
 
+  onWorkflowDateChange(value){
+    this.setState(prevState =>({
+      WorkflowStartDate:value
+    }));
+  }
+
   onSwitchChange(value){
     this.setState(prevState =>({
       IsSwitchChecked:value
@@ -89,11 +127,33 @@ class App extends Component {
     }));
   }
 
+  onWorkflowDescriptionChange(value){
+    this.setState(prevState =>({
+      WorkflowDescription:value
+    }));
+  }
+
   onCheckedChange(value){
     this.setState(prevState =>({
       isChecked:value
     }));
     console.log(value);
+  }
+
+  async saveFormData(){
+    console.log(this.state.selectedEntityType);
+    await saveFormSettings(this.state.selectedEntityType,this.state.WorkflowId,this.state.WorkflowDescription,this.state.WorkflowStartDate.toString());
+  }
+
+  async getFormData(){
+    const data = await getFormSettings();
+    this.setState(prevState =>({
+      selectedEntityType:data.EntityTypeId,
+      WorkflowDescription:data.Workflow.Description,
+      WorkflowId:data.Workflow.Id,
+      WorkflowStartDate:new Date(data.WorkflowStartDate)
+    }));
+    console.log(data);
   }
 
   render() {
@@ -130,6 +190,23 @@ class App extends Component {
           <div style={{ margin: '10px' }}/>
           <div>
             <XPHGrid Rows={rows} ColumnDefs={columns}/>
+          </div>
+          <div>
+            <label> Form Data </label>
+            <div style={{ margin: '10px' }}/>
+            <label> Entity Type </label>
+            <div style={{ margin: '10px',display: 'inline-block' }}/>
+            <XPHComboBox data={this.state.EntityTypes} selectedItem={this.state.selectedEntityType} selectedItemChange={this.selectedEntityTypeChange} textField={"Description"} valueField={"Id"}/>
+            <div style={{ margin: '10px' }}/>
+            <label> Workflow Description </label>
+            <div style={{ margin: '10px',display: 'inline-block' }}/>
+            <XPHTextBox value={this.state.WorkflowDescription} onChange={this.onWorkflowDescriptionChange}/>
+            <div style={{ margin: '10px' }}/>
+            <label> Workflow Start Date </label>
+            <div style={{ margin: '10px',display: 'inline-block' }}/>
+            <XPHDatePicker value={this.state.WorkflowStartDate} onChange={this.onWorkflowDateChange} format={this.state.dateFormat} />
+            <div style={{ margin: '10px' }}/>
+            <Button style={{ margin: "5px 0px 0px 0px" }} click={this.saveFormData} >Save</Button>
           </div>
       </div>
     );

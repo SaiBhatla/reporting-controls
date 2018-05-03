@@ -47,7 +47,7 @@ export class XPHComboBox extends React.Component {
     }
 
     render() {
-        const { selectedItem, data,filterable } = this.props;
+        const { selectedItem, data,filterable,textField,valueField } = this.props;
         if(data === undefined || data === null){
             return(
                 <div></div>
@@ -67,6 +67,8 @@ export class XPHComboBox extends React.Component {
                         filterable={filterable}
                         placeholder={'Select Item...'}
                         value={selectedItem}
+                        textField={textField}
+                        valueField={valueField}
                     />
                 </div>
             );
