@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@progress/kendo-buttons-react-wrapper": "^2018.1.221",
+    "@progress/kendo-charts-react-wrapper": "^2018.1.221",
     "@progress/kendo-data-query": "^1.2.2",
     "@progress/kendo-drawing": "^1.5.2",
     "@progress/kendo-inputs-react-wrapper": "^2018.1.221",
+    "@progress/kendo-layout-react-wrapper": "^2018.1.221",
     "@progress/kendo-react-dateinputs": "^0.5.1",
     "@progress/kendo-react-dropdowns": "^0.5.1",
     "@progress/kendo-react-grid": "^0.5.1",
@@ -21,8 +22,7 @@
     "kendo-ui-react": "^0.14.2",
     "npm": "^5.8.0",
     "react": "^16.3.1",
-    "react-dom": "^16.3.1",
-    "react-scripts": "1.1.4"
+    "react-dom": "^16.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
