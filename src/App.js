@@ -18,6 +18,7 @@ import {XPHGrid} from './controls/Grid/XPHGrid'
 import {XPHBarChart} from './controls/Charts/XPHBarChart'
 import {XPHPieChart} from './controls/Charts/XPHPieChart'
 import {XPHLineChart} from './controls/Charts/XPHLineChart'
+import {XPHTabStrip} from './controls/TabStrip/XPHTabStrip'
 import '@progress/kendo-theme-default/dist/all.css'
 
 class App extends Component {
@@ -54,6 +55,7 @@ class App extends Component {
       pieChartSeries: pieChartSeriesData,
       pieChartSeriesDefaults: pieChartSeriesDefaultsData,
       lineChartSeries: lineChartSeriesData,
+      tabStripData: []
     };
     this.selectedItemChange = this.selectedItemChange.bind(this);
     this.onAmountChange = this.onAmountChange.bind(this);
@@ -63,6 +65,7 @@ class App extends Component {
     this.onSwitchChange = this.onSwitchChange.bind(this);
     this.onTextChange = this.onTextChange.bind(this);
     this.onCheckedChange = this.onCheckedChange.bind(this);
+    this.onLinkClick = this.onLinkClick.bind(this);
   }
   
   selectedItemChange(value){
@@ -111,6 +114,13 @@ class App extends Component {
     }));
   }
 
+  onLinkClick(){
+    let item = { Name: "Tab", Content: "Tab: content" }
+    this.setState(prevState => ({
+      tabStripData: [...prevState.tabStripData, item]
+    }))
+  }
+
   render() {
     const rows = this.state.rows;
     const columns = this.state.columns;
@@ -121,6 +131,11 @@ class App extends Component {
     const lineSeries = this.state.lineChartSeries;
     return (
       <div>
+          <a title = "Menu Item" onClick={this.onLinkClick}>Menu1</a>
+          <div style={{ margin: '10px' }}/>
+          <label>TabStrip </label>
+          <XPHTabStrip data={this.state.tabStripData}/>
+          <div style={{ margin: '10px' }}/>
           <label>Combo </label>
           <XPHComboBox data={this.state.Categories} selectedItem={this.state.selectedItem} onOpen={this.onOpen} selectedItemChange={this.selectedItemChange}/>
           <div style={{ margin: '10px' }}/>
